@@ -3,4 +3,3 @@ python-dotenv
 discord.py
 tiktoken
 wolframalpha
-json
