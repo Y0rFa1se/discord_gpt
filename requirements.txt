@@ -1,0 +1,6 @@
+openai
+dotenv
+discord.py
+tiktoken
+wolframalpha
+json
