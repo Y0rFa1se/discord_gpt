@@ -3,7 +3,7 @@ import discord
 from discord.ext import commands
 
 from modules.openai import openai_init, openai_usage
-from modules.gpt import openai_init, count_token, cut_message, render_requests, render_image, render_responses, gpt_request
+from modules.gpt import count_token, cut_message, render_requests, render_image, render_responses, gpt_request
 from modules.json import load_json, save_json
 
 ENV_DICT = dotenv_values(".env")
