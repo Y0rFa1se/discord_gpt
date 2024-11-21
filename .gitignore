@@ -1,0 +1,7 @@
+__pycache__/
+
+.env
+chat_history/
+
+test.py
+test.ipynb
