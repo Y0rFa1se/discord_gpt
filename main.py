@@ -63,6 +63,7 @@ async def on_message(message):
         requests = message.content
         history = load_json(message.channel)
         history = render_requests(history, requests)
+        history = cut_message(history)
         responses = gpt_request(history, model=ENV_DICT["MODEL"])
         history = render_responses(history, responses)
         save_json(message.channel, history)
