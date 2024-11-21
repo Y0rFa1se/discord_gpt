@@ -47,7 +47,7 @@ async def on_message(message):
         await bot.process_commands(message)
         return
     
-    if message.channel == "BOT-OFF":
+    if message.channel == "bot-off":
         return
     
     if message.attachments:
