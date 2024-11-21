@@ -47,6 +47,9 @@ async def on_message(message):
         await bot.process_commands(message)
         return
     
+    if message.channel == "BOT-OFF":
+        return
+    
     if message.attachments:
         for attachment in message.attachments:
             if attachment.content_type and attachment.content_type.startswith("image/"):
