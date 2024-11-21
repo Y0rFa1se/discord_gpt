@@ -2,7 +2,8 @@ from dotenv import dotenv_values
 import discord
 from discord.ext import commands
 
-from modules.gpt import openai_init, count_token, cut_message, render_requests, render_image, render_responses, openai_request
+from modules.openai import openai_init, openai_usage
+from modules.gpt import openai_init, count_token, cut_message, render_requests, render_image, render_responses, gpt_request
 from modules.json import load_json, save_json
 
 ENV_DICT = dotenv_values(".env")
@@ -22,6 +23,10 @@ async def on_ready():
 async def check_token(ctx):
     tokens = count_token(load_json(ctx.channel), model=ENV_DICT["MODEL"])
     await ctx.send(tokens)
+
+@bot.command(name="usage")
+async def usage(ctx):
+    openai_usage()
 
 @bot.command(name="checktoken")
 async def check_token(ctx, *args):
@@ -55,7 +60,7 @@ async def on_message(message):
         requests = message.content
         history = load_json(message.channel)
         history = render_requests(history, requests)
-        responses = openai_request(history, model=ENV_DICT["MODEL"])
+        responses = gpt_request(history, model=ENV_DICT["MODEL"])
         history = render_responses(history, responses)
         save_json(message.channel, history)
         await message.channel.send(responses)

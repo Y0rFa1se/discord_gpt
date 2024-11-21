@@ -1,9 +1,6 @@
 import openai
 import tiktoken
 
-def openai_init(api_key):
-    openai.api_key = api_key
-
 def count_token(messages, model="gpt-4o-mini"):
     tokenizer = tiktoken.encoding_for_model(model)
     tokens = 0
@@ -52,7 +49,7 @@ def render_responses(history: dict, responses: str) -> dict:
 
     return history
 
-def openai_request(history: dict, model="gpt-4o-mini") -> str:
+def gpt_request(history: dict, model="gpt-4o-mini") -> str:
     completion = openai.chat.completions.create(
         model=model,
         messages=history
