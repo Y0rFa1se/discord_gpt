@@ -1,7 +1,7 @@
 __pycache__/
 
 .env
-chat_history/
+chat_history/*
 
 test.py
 test.ipynb
