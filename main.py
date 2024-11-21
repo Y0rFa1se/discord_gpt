@@ -40,6 +40,7 @@ async def clear_history(ctx):
 
 @bot.event
 async def on_message(message):
+    print(message.channel)
     if message.author.bot:
         return
     
