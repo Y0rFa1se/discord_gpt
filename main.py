@@ -40,6 +40,8 @@ async def clear_history(ctx):
 
 @bot.event
 async def on_message(message):
+    MODEL = ENV_DICT["MODEL"]
+
     if message.author.bot:
         return
     
@@ -49,6 +51,9 @@ async def on_message(message):
     
     if str(message.channel) == "bot_off":
         return
+
+    if str(message.channel.category).startswith("large"):
+        MODEL = ENV_DICT["LARGE_MODEL"]
     
     if message.attachments:
         for attachment in message.attachments:
@@ -64,7 +69,7 @@ async def on_message(message):
         history = load_json(message.channel)
         history = render_requests(history, requests)
         history = cut_message(history)
-        responses = gpt_request(history, model=ENV_DICT["MODEL"])
+        responses = gpt_request(history, MODEL)
         history = render_responses(history, responses)
         save_json(message.channel, history)
         await message.channel.send(responses)
