@@ -54,7 +54,7 @@ async def on_message(message):
         await bot.process_commands(message)
         return
     
-    if str(message.channel) == "bot_off":
+    if str(message.channel).startswith("bot_off"):
         return
     
     if message.attachments:
