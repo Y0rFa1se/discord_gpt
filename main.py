@@ -43,6 +43,10 @@ async def clear_history(ctx):
     save_json(ctx.channel, [])
     await ctx.send("History cleared.")
 
+@bot.command(name="jsonhistory")
+async def json_history(ctx):
+    file = discord.File(f"{ctx.channel}")
+
 @bot.event
 async def on_message(message):
     MODEL = str(message.channel.category)
@@ -61,19 +65,19 @@ async def on_message(message):
         for attachment in message.attachments:
             if attachment.content_type and attachment.content_type.startswith("image/"):
                 image_url = attachment.url
-                history = load_json(message.channel)
+                history = load_json(f"{message.channel.category}/{message.channel}")
                 history = render_image(history, image_url)
                 history = cut_message(history)
-                save_json(message.channel, history)
+                save_json(f"{message.channel.category}/{message.channel}", history)
 
     if message.content:
         requests = message.content
-        history = load_json(message.channel)
+        history = load_json(f"{message.channel.category}/{message.channel}")
         history = render_requests(history, requests)
         history = cut_message(history)
         responses = gpt_request(history, MODEL)
         history = render_responses(history, responses)
-        save_json(message.channel, history)
+        save_json(f"{message.channel.category}/{message.channel}", history)
         await message.channel.send(responses)
 
     await bot.process_commands(message)
