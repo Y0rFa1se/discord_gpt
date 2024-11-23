@@ -3,8 +3,13 @@ import discord
 from discord.ext import commands
 
 from modules.openai import openai_init, openai_usage
-from modules.gpt import count_token, cut_message, render_requests, render_image, render_responses, gpt_request
 from modules.json import load_json, save_json
+from modules.gpt import (count_token,
+                         cut_message,
+                         render_requests,
+                         render_image,
+                         render_responses,
+                         gpt_request)
 
 ENV_DICT = dotenv_values(".env")
 
@@ -40,7 +45,7 @@ async def clear_history(ctx):
 
 @bot.event
 async def on_message(message):
-    MODEL = ENV_DICT["MODEL"]
+    MODEL = str(message.channel.category)
 
     if message.author.bot:
         return
@@ -51,9 +56,6 @@ async def on_message(message):
     
     if str(message.channel) == "bot_off":
         return
-
-    if str(message.channel.category).startswith("large"):
-        MODEL = ENV_DICT["LARGE_MODEL"]
     
     if message.attachments:
         for attachment in message.attachments:
