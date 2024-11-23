@@ -45,7 +45,7 @@ async def clear_history(ctx):
 
 @bot.command(name="jsonhistory")
 async def json_history(ctx):
-    file = discord.File(f"{ctx.channel.category}/{ctx.channel}.json", filename="history.json")
+    file = discord.File(f"/{ctx.channel.category}/{ctx.channel}.json", filename="history.json")
     await ctx.send(file=file)
 
 @bot.event
