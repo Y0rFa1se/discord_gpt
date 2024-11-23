@@ -2,7 +2,6 @@ __pycache__/
 
 .env
 chat_history/
-!chat_history/_example.json
 
 test.py
 test.ipynb
