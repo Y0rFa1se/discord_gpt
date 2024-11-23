@@ -25,7 +25,7 @@ bot = commands.Bot(command_prefix="!", intents=intents, help_command=None)
 @bot.event
 async def on_ready():
     print(f"Bot is ready as {bot.user}")
-    activity = discord.Activity(type=discord.ActivityType.custom, name="!help")
+    activity = discord.Activity(type=discord.ActivityType.playing, name="!help")
 
     await bot.change_presence(activity=activity)
 
