@@ -55,7 +55,7 @@ async def check_token(ctx, *args):
 
 @bot.command(name="clearhistory")
 async def clear_history(ctx):
-    save_json(ctx.channel, [])
+    save_json(ctx.channel.category, ctx.channel, [])
     await ctx.send("History cleared.")
 
 @bot.command(name="jsonhistory")
