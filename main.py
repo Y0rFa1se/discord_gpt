@@ -33,6 +33,7 @@ async def on_ready():
 async def help(ctx):
     await ctx.send(
 """
+# prefix: !
 ```
 !tokenhistory: 현재 채널에 저장된 히스토리 토큰 사용량
 !checktoken [text]: [text] 토큰 측정
