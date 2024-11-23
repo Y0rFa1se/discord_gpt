@@ -1,5 +1,5 @@
-[🇰🇷한국어](#Korean)
-[🇺🇸English](#English)
+[🇰🇷한국어](#한국어-Korean)
+[🇺🇸English](#English-English)
 
 # 한국어 {Korean}
 
