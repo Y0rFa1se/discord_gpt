@@ -2,6 +2,4 @@ python-dotenv
 discord.py
 tiktoken
 openai
-langchain
-llama-index
 wolframalpha
