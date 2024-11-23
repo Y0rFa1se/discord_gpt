@@ -2,14 +2,16 @@ from dotenv import dotenv_values
 import discord
 from discord.ext import commands
 
-from modules.openai import openai_init, openai_usage
+from modules.openai import openai_init
 from modules.json import load_json, save_json
-from modules.gpt import (count_token,
-                         cut_message,
-                         render_requests,
-                         render_image,
-                         render_responses,
-                         gpt_request)
+from modules.gpt import (
+    count_token,
+    cut_message,
+    render_requests,
+    render_image,
+    render_responses,
+    gpt_request
+)
 
 ENV_DICT = dotenv_values(".env")
 
@@ -23,15 +25,25 @@ bot = commands.Bot(command_prefix="/", intents=intents)
 @bot.event
 async def on_ready():
     print(f"Bot is ready as {bot.user}")
+    activity = discord.Game(name="명령어: /help")
+
+    await bot.change_presence(status=discord.Status.online, activity=activity)
+
+@bot.command(name="help")
+async def help(ctx):
+    await ctx.send(
+        """
+        /tokenhistory: 현재 채널에 저장된 히스토리 토큰 사용량
+        /checktoken [text]: [text] 토큰 측정
+        /clearhistory: 현재 채널 대화 히스토리 초기화
+        /jsonhistory: 현재 채널 대화 히스토리 JSON 파일로 다운로드
+        """
+    )
 
 @bot.command(name="tokenhistory")
 async def check_token(ctx):
     tokens = count_token(load_json(ctx.channel), model=ENV_DICT["MODEL"])
     await ctx.send(tokens)
-
-@bot.command(name="usage")
-async def usage(ctx):
-    openai_usage()
 
 @bot.command(name="checktoken")
 async def check_token(ctx, *args):
