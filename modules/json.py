@@ -1,7 +1,11 @@
 import os
 import json
 
-os.mkdir("chat_history")
+try:
+    os.mkdir("chat_history")
+
+except FileExistsError:
+    pass
 
 def load_json(dir: str, name: str) -> dict:
     try:
