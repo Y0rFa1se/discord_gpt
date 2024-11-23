@@ -40,7 +40,7 @@ async def help(ctx):
 !clearhistory: 현재 채널 대화 히스토리 초기화
 !jsonhistory: 현재 채널 대화 히스토리 JSON 파일로 다운로드
 ```
-[Github Repository](https://github.com/Y0rFa1se/discord_gpt)
+# [Github Repository](https://github.com/Y0rFa1se/discord_gpt)
 """
     )
 
