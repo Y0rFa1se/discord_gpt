@@ -84,6 +84,9 @@ async def wolfram_alpha(ctx, *args):
     response = await get_wolfram(query, ENV_DICT["WOLFRAM_APP_ID"])
     await ctx.send(response)
 
+    file = discord.File("files/wolfram.png")
+    await ctx.send(file=file)
+
 @bot.event
 async def on_message(message):
     MODEL = str(message.channel.category)
