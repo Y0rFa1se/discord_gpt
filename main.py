@@ -1,6 +1,7 @@
 from dotenv import dotenv_values
 import discord
 from discord.ext import commands
+from io import BytesIO
 
 from modules.openai import openai_init
 from modules.json import load_json, save_json
@@ -82,7 +83,9 @@ async def on_message(message):
     if message.attachments:
         for attachment in message.attachments:
             if attachment.content_type and attachment.content_type.startswith("image/"):
-                image_url = imgur_upload(attachment, ENV_DICT["IMGUR_CLIENT_ID"])
+                file_data = await attachment.read()
+
+                image_url = imgur_upload(("image.png", BytesIO(file_data), attachment.content_type), ENV_DICT["IMGUR_CLIENT_ID"])
                 history = load_json(f"{message.guild}/{message.channel.category}", message.channel)
                 history = render_image(history, image_url)
                 history = cut_message(history)
