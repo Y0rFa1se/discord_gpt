@@ -3,3 +3,5 @@ discord.py
 tiktoken
 openai
 wolframalpha
+PyPDF2
+langchain

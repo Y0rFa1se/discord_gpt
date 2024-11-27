@@ -8,6 +8,7 @@ from modules.openai import openai_init
 from modules.json import load_json, save_json
 from modules.imgur import imgur_upload
 from modules.wolfram import get_wolfram
+from modules.langchain import process_pdf
 from modules.gpt import (
     count_token,
     cut_message,
@@ -115,6 +116,15 @@ async def on_message(message):
 
                 await message.channel.send("Image uploaded.")
 
+            elif attachment.content_type and attachment.content_type.startswith("pdf"):
+                file_data = await attachment.read()
+                text = "pdf content: "
+                text += process_pdf(BytesIO(file_data))
+                history = load_json(f"{message.guild}/{message.channel.category}", message.channel)
+                history = render_requests(history, text)
+                history = cut_message(history)
+                responses = gpt_request(history, MODEL)
+
     if message.content:
         requests = message.content
         history = load_json(f"{message.guild}/{message.channel.category}", message.channel)
@@ -124,12 +134,10 @@ async def on_message(message):
 
         msg = await message.channel.send("Typing...")
         collected = ""
-        total_tokens = 0
 
         for idx, chunk in enumerate(responses):
             if chunk.choices[0].delta.content:
                 collected += chunk.choices[0].delta.content
-                total_tokens += chunk.usage['total_tokens'] 
 
                 chunk_size = streaming_chunk.get(message.channel, 10)
                 if idx % chunk_size == 0:
@@ -138,8 +146,6 @@ async def on_message(message):
 
                     except asyncio.TimeoutError:
                         pass
-
-        collected += f"```\n\nTotal tokens: {total_tokens}```"
 
         await msg.edit(content=collected)
 
