@@ -73,16 +73,16 @@ async def json_history(ctx):
     file = discord.File(f"chat_history/{ctx.guild}/{ctx.channel.category}/{ctx.channel}_decoded.json", filename="history_decoded.json")
     await ctx.send(file=file)
 
-@bot.command(name="wa")
-async def wolfram_alpha(ctx, *args):
-    query = " ".join(args)
-    response = get_wolfram(query, ENV_DICT["WOLFRAM_APP_ID"])
-    await ctx.send(response)
-
 @bot.command(name="streamchunk")
 async def stream_chunk(ctx, number: int):
     streaming_chunk[ctx.channel] = number
     await ctx.send(f"Streaming chunk set to {number}.")
+
+@bot.command(name="wa")
+async def wolfram_alpha(ctx, *args):
+    query = " ".join(args)
+    response = await get_wolfram(query, ENV_DICT["WOLFRAM_APP_ID"])
+    await ctx.send(response)
 
 @bot.event
 async def on_message(message):
