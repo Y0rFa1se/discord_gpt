@@ -3,4 +3,3 @@ discord.py
 tiktoken
 openai
 wolframalpha
-requests

@@ -1,11 +1,6 @@
 import wolframalpha
 import asyncio
 import os
-import json
-
-import requests
-from PIL import Image
-from io import BytesIO
 
 os.makedirs("files", exist_ok=True)
 
