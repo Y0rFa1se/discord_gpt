@@ -103,7 +103,7 @@ async def on_message(message):
         msg = await message.channel.send("Typing...")
         collected = ""
 
-        async for chunk in responses:
+        for chunk in responses:
             collected += chunk.choices[0].message.content
 
             await msg.edit(content=collected)
