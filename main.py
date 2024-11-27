@@ -115,8 +115,8 @@ async def on_message(message):
             if chunk.choices[0].delta.content:
                 collected += chunk.choices[0].delta.content
 
-                chunk = streaming_chunk.get(message.channel, 10)
-                if idx % streaming_chunk[message.channel] == 0:
+                chunk_size = streaming_chunk.get(message.channel, 10)
+                if idx % chunk_size == 0:
                     await msg.edit(content=collected)
 
         await msg.edit(content=collected)
