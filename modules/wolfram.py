@@ -11,6 +11,7 @@ os.makedirs("files", exist_ok=True)
 async def get_wolfram(query, app_id):
     client = wolframalpha.Client(app_id)
     res = await asyncio.to_thread(client.query, query)
+    print(res)
 
     result_text = None
     image_url = None
