@@ -3,6 +3,8 @@ import discord
 from discord.ext import commands
 from io import BytesIO
 
+import asyncio
+
 from modules.openai import openai_init
 from modules.json import load_json, save_json
 from modules.imgur import imgur_upload
@@ -35,19 +37,9 @@ async def on_ready():
 
 @bot.command(name="help")
 async def help(ctx):
-    await ctx.send(
-"""
-# prefix: !
-```
-!tokenhistory: 현재 채널에 저장된 히스토리 토큰 사용량
-!checktoken [text]: [text] 토큰 측정
-!clearhistory: 현재 채널 대화 히스토리 초기화
-!jsonhistory: 현재 채널 대화 히스토리 JSON 파일로 다운로드
-!streamchunk [number]: 스트리밍 방식일 때 한 번에 출력할 메시지 개수 설정
-```
-# [Github Repository](https://github.com/Y0rFa1se/discord_gpt)
-"""
-    )
+    with open("templates/help.md", "r") as f:
+        help_text = f.read()
+        await ctx.send(help_text)
 
 @bot.command(name="tokenhistory")
 async def check_token(ctx):
@@ -117,7 +109,11 @@ async def on_message(message):
 
                 chunk_size = streaming_chunk.get(message.channel, 10)
                 if idx % chunk_size == 0:
-                    await msg.edit(content=collected)
+                    try:
+                        await asyncio.wait_for(msg.edit(content=collected), timeout=0.2)
+
+                    except asyncio.TimeoutError:
+                        pass
 
         await msg.edit(content=collected)
 
