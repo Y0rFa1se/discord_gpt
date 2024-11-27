@@ -104,10 +104,11 @@ async def on_message(message):
         collected = ""
 
         for idx, chunk in enumerate(responses):
-            if (idx % 5 == 0) and (chunk.choices[0].delta.content):
+            if chunk.choices[0].delta.content:
                 collected += chunk.choices[0].delta.content
 
-                await msg.edit(content=collected)
+                if idx % 5 == 0:
+                    await msg.edit(content=collected)
 
         await msg.edit(content=collected)
 
