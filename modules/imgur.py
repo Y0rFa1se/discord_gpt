@@ -8,7 +8,7 @@ def imgur_upload(image, client_id: str) -> dict:
     response = requests.post(
         "https://api.imgur.com/3/image",
         headers=headers,
-        files={"image": image.file}
+        files={"image": image}
     )
 
     if (response.status_code == 200):
