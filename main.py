@@ -118,7 +118,7 @@ async def on_message(message):
 
                     await message.channel.send("Image uploaded.")
 
-                elif attachment.content_type and attachment.content_type.startswith("pdf"):
+                elif attachment.filename.lower().endswith("pdf"):
                     print("pdf")
                     url = attachment.url
 
