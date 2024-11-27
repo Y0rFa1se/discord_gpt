@@ -1,7 +1,7 @@
 from langchain_community.document_loaders import PyPDFLoader
 
-def process_pdf(pdf_binary):
-    loader = PyPDFLoader(pdf_binary)
+def process_pdf(pdf_path):
+    loader = PyPDFLoader(pdf_path)
     text = loader.get_text()
 
     print(text)
