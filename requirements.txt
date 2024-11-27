@@ -3,6 +3,4 @@ discord.py
 tiktoken
 openai
 wolframalpha
-matplotlib
 requests
-aiohttp
