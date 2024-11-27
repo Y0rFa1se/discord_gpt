@@ -91,6 +91,8 @@ async def wolfram_alpha(ctx, *args):
         file = discord.File("files/wolfram.png")
         await ctx.send(file=file)
 
+        os.remove("files/wolfram.png")
+
 @bot.event
 async def on_message(message):
     MODEL = str(message.channel.category)
