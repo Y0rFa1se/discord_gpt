@@ -5,3 +5,4 @@ openai
 wolframalpha
 matplotlib
 requests
+aiohttp
