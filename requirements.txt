@@ -4,4 +4,4 @@ tiktoken
 openai
 wolframalpha
 PyPDF2
-langchain
+langchain-community
