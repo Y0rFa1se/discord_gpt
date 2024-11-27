@@ -1,6 +1,9 @@
 import wolframalpha
 import asyncio
 import matplotlib.pyplot as plt
+import os
+
+os.mkdir("files", exist_ok=True)
 
 async def get_wolfram(query, app_id):
     app_id = app_id
