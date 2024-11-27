@@ -4,6 +4,6 @@ def process_pdf(pdf_path):
     loader = PyPDFLoader(pdf_path)
     text = loader.load()
 
-    print(text.document.page_content)
+    print(text.page_content)
 
     return text
