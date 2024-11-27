@@ -106,35 +106,36 @@ async def on_message(message):
     
     if message.attachments:
         for attachment in message.attachments:
-            if attachment.content_type and attachment.content_type.startswith("image/"):
-                file_data = await attachment.read()
+            if attachment.content_type:
+                if attachment.content_type.startswith("image/"):
+                    file_data = await attachment.read()
 
-                image_url = imgur_upload(("image.png", BytesIO(file_data), attachment.content_type), ENV_DICT["IMGUR_CLIENT_ID"])
-                history = load_json(f"{message.guild}/{message.channel.category}", message.channel)
-                history = render_image(history, image_url)
-                history = cut_message(history)
-                save_json(f"{message.guild}/{message.channel.category}", message.channel, history)
+                    image_url = imgur_upload(("image.png", BytesIO(file_data), attachment.content_type), ENV_DICT["IMGUR_CLIENT_ID"])
+                    history = load_json(f"{message.guild}/{message.channel.category}", message.channel)
+                    history = render_image(history, image_url)
+                    history = cut_message(history)
+                    save_json(f"{message.guild}/{message.channel.category}", message.channel, history)
 
-                await message.channel.send("Image uploaded.")
+                    await message.channel.send("Image uploaded.")
 
-            elif attachment.content_type and attachment.content_type.startswith("pdf"):
-                print("pdf")
-                url = attachment.url
+                elif attachment.content_type and attachment.content_type.startswith("pdf"):
+                    print("pdf")
+                    url = attachment.url
 
-                async with aiohttp.ClientSession() as session:
-                    async with session.get(url) as response:
-                        pdf_binary = await response.read()
+                    async with aiohttp.ClientSession() as session:
+                        async with session.get(url) as response:
+                            pdf_binary = await response.read()
 
-                        with open("files/pdf.pdf", "wb") as f:
-                            f.write(pdf_binary)
+                            with open("files/pdf.pdf", "wb") as f:
+                                f.write(pdf_binary)
 
-                text = "pdf content: " + process_pdf(pdf_binary)
-                history = load_json(f"{message.guild}/{message.channel.category}", message.channel)
-                history = render_requests(history, text)
-                history = cut_message(history)
-                save_json(f"{message.guild}/{message.channel.category}", message.channel, history)
+                    text = "pdf content: " + process_pdf(pdf_binary)
+                    history = load_json(f"{message.guild}/{message.channel.category}", message.channel)
+                    history = render_requests(history, text)
+                    history = cut_message(history)
+                    save_json(f"{message.guild}/{message.channel.category}", message.channel, history)
 
-                await message.channel.send("PDF uploaded.")
+                    await message.channel.send("PDF uploaded.")
 
     if message.content:
         requests = message.content
