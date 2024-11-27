@@ -91,15 +91,25 @@ async def on_message(message):
                 history = cut_message(history)
                 save_json(f"{message.guild}/{message.channel.category}", message.channel, history)
 
+                await message.channel.send("Image uploaded.")
+
     if message.content:
         requests = message.content
         history = load_json(f"{message.guild}/{message.channel.category}", message.channel)
         history = render_requests(history, requests)
         history = cut_message(history)
         responses = gpt_request(history, MODEL)
-        history = render_responses(history, responses)
+
+        msg = await message.channel.send("Typing...")
+        collected = ""
+
+        async for chunk in responses:
+            collected += chunk.choices[0].message.content
+
+            await msg.edit(content=collected)
+
+        history = render_responses(history, collected)
         save_json(f"{message.guild}/{message.channel.category}", message.channel, history)
-        await message.channel.send(responses)
 
     await bot.process_commands(message)
 

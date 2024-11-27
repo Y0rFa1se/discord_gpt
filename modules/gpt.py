@@ -52,7 +52,8 @@ def render_responses(history: dict, responses: str) -> dict:
 def gpt_request(history: dict, model="gpt-4o-mini") -> str:
     completion = openai.chat.completions.create(
         model=model,
-        messages=history
+        messages=history,
+        stream=True
     )
 
-    return completion.choices[0].message.content
+    return completion
