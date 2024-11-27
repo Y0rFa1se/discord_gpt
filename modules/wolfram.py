@@ -13,7 +13,13 @@ async def get_wolfram(query, app_id):
     client = wolframalpha.Client(app_id)
     res = await asyncio.to_thread(client.query, query)
 
-    with open("files/result.json", "w") as f:
-        json.dump(res, f, indent=4)
+    if res["@success"] == "false":
+        return "No results found."
+    
+    ret = ""
+    for pod in res['pod']:
+        ret += f"## {pod['@title']}\n"
+        ret += f"{pod['subpod']['plaintext']}\n"
+        ret += pod['subpod']['img']['@src'] + "\n"
 
-    # return result_text
+    return ret

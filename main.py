@@ -86,12 +86,9 @@ async def wolfram_alpha(ctx, *args):
 
     if response:
         await ctx.send(response)
-
-    if os.path.exists("files/wolfram.png"):
-        file = discord.File("files/wolfram.png")
-        await ctx.send(file=file)
-
-        os.remove("files/wolfram.png")
+        
+    else:
+        await ctx.send("No results found.")
 
 @bot.event
 async def on_message(message):
