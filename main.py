@@ -129,9 +129,7 @@ async def on_message(message):
         for idx, chunk in enumerate(responses):
             if chunk.choices[0].delta.content:
                 collected += chunk.choices[0].delta.content
-
-                if 'usage' in chunk:
-                    total_tokens += chunk.usage['total_tokens'] 
+                total_tokens += chunk.usage['total_tokens'] 
 
                 chunk_size = streaming_chunk.get(message.channel, 10)
                 if idx % chunk_size == 0:
