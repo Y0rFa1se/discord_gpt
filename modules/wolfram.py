@@ -20,6 +20,6 @@ async def get_wolfram(query, app_id):
     for pod in res['pod']:
         ret += f"## {pod['@title']}\n"
         ret += f"{pod['subpod']['plaintext']}\n"
-        ret += f"![img]({pod['subpod']['img']['@src']})"
+        ret += pod['subpod']['img']['@src'] + "\n"
 
     return ret
