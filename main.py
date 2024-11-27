@@ -124,10 +124,14 @@ async def on_message(message):
 
         msg = await message.channel.send("Typing...")
         collected = ""
+        total_tokens = 0
 
         for idx, chunk in enumerate(responses):
             if chunk.choices[0].delta.content:
                 collected += chunk.choices[0].delta.content
+
+                if 'usage' in chunk:
+                    total_tokens += chunk.usage['total_tokens'] 
 
                 chunk_size = streaming_chunk.get(message.channel, 10)
                 if idx % chunk_size == 0:
@@ -136,6 +140,8 @@ async def on_message(message):
 
                     except asyncio.TimeoutError:
                         pass
+
+        collected += f"```\n\nTotal tokens: {total_tokens}```"
 
         await msg.edit(content=collected)
 
