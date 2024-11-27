@@ -24,6 +24,8 @@ intents.message_content = True
 
 bot = commands.Bot(command_prefix="!", intents=intents, help_command=None)
 
+streaming_chunk = dict()
+
 @bot.event
 async def on_ready():
     print(f"Bot is ready as {bot.user}")
@@ -41,6 +43,7 @@ async def help(ctx):
 !checktoken [text]: [text] 토큰 측정
 !clearhistory: 현재 채널 대화 히스토리 초기화
 !jsonhistory: 현재 채널 대화 히스토리 JSON 파일로 다운로드
+!streamchunk [number]: 스트리밍 방식일 때 한 번에 출력할 메시지 개수 설정
 ```
 # [Github Repository](https://github.com/Y0rFa1se/discord_gpt)
 """
@@ -65,6 +68,11 @@ async def clear_history(ctx):
 async def json_history(ctx):
     file = discord.File(f"chat_history/{ctx.guild}/{ctx.channel.category}/{ctx.channel}.json", filename="history.json")
     await ctx.send(file=file)
+
+@bot.command(name="streamchunk")
+async def stream_chunk(ctx, number: int):
+    streaming_chunk[ctx.channel] = number
+    await ctx.send(f"Streaming chunk set to {number}.")
 
 @bot.event
 async def on_message(message):
@@ -107,7 +115,8 @@ async def on_message(message):
             if chunk.choices[0].delta.content:
                 collected += chunk.choices[0].delta.content
 
-                if idx % 10 == 0:
+                chunk = streaming_chunk.get(message.channel, 10)
+                if idx % streaming_chunk[message.channel] == 0:
                     await msg.edit(content=collected)
 
         await msg.edit(content=collected)
