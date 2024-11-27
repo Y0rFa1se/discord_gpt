@@ -3,6 +3,6 @@ discord.py
 tiktoken
 openai
 wolframalpha
-PyPDF2
+pypdf
 langchain-community
 aiohttp

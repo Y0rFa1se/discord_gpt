@@ -129,7 +129,7 @@ async def on_message(message):
                             with open("files/pdf.pdf", "wb") as f:
                                 f.write(pdf_binary)
 
-                    text = "pdf content: " + process_pdf(pdf_binary)
+                    text = "pdf content: " + process_pdf("files/pdf.pdf")
                     history = load_json(f"{message.guild}/{message.channel.category}", message.channel)
                     history = render_requests(history, text)
                     history = cut_message(history)
