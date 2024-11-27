@@ -4,6 +4,7 @@ from discord.ext import commands
 
 from modules.openai import openai_init
 from modules.json import load_json, save_json
+from modules.imgur import imgur_upload
 from modules.gpt import (
     count_token,
     cut_message,
@@ -56,12 +57,12 @@ async def check_token(ctx, *args):
 
 @bot.command(name="clearhistory")
 async def clear_history(ctx):
-    save_json(ctx.channel.category, ctx.channel, [])
+    save_json(f"{ctx.guild}/{ctx.channel.category}", ctx.channel, [])
     await ctx.send("History cleared.")
 
 @bot.command(name="jsonhistory")
 async def json_history(ctx):
-    file = discord.File(f"chat_history/{ctx.channel.category}/{ctx.channel}.json", filename="history.json")
+    file = discord.File(f"chat_history/{ctx.guild}/{ctx.channel.category}/{ctx.channel}.json", filename="history.json")
     await ctx.send(file=file)
 
 @bot.event
@@ -81,20 +82,20 @@ async def on_message(message):
     if message.attachments:
         for attachment in message.attachments:
             if attachment.content_type and attachment.content_type.startswith("image/"):
-                image_url = attachment.url
-                history = load_json(message.channel.category, message.channel)
+                image_url = imgur_upload(attachment, ENV_DICT["IMGUR_CLIENT_ID"])
+                history = load_json(f"{message.guild}/{message.channel.category}", message.channel)
                 history = render_image(history, image_url)
                 history = cut_message(history)
-                save_json(message.channel.category, message.channel, history)
+                save_json(f"{message.guild}/{message.channel.category}", message.channel, history)
 
     if message.content:
         requests = message.content
-        history = load_json(message.channel.category, message.channel)
+        history = load_json(f"{message.guild}/{message.channel.category}", message.channel)
         history = render_requests(history, requests)
         history = cut_message(history)
         responses = gpt_request(history, MODEL)
         history = render_responses(history, responses)
-        save_json(message.channel.category, message.channel, history)
+        save_json(f"{message.guild}/{message.channel.category}", message.channel, history)
         await message.channel.send(responses)
 
     await bot.process_commands(message)

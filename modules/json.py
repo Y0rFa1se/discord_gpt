@@ -1,18 +1,8 @@
 import os
 import json
 
-try:
-    os.mkdir("chat_history")
-
-except FileExistsError:
-    pass
-
 def load_json(dir: str, name: str) -> dict:
-    try:
-        os.mkdir(f"chat_history/{dir}")
-    
-    except FileExistsError:
-        pass
+    os.makedirs(f"chat_history/{dir}", exist_ok=True)
 
     try:
         with open(f"chat_history/{dir}/{name}.json", "r") as f:
