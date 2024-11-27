@@ -81,7 +81,7 @@ async def stream_chunk(ctx, number: int):
 @bot.command(name="wa")
 async def wolfram_alpha(ctx, *args):
     query = " ".join(args)
-    response = get_wolfram(query, ENV_DICT["WOLFRAM_APP_ID"])
+    response = await get_wolfram(query, ENV_DICT["WOLFRAM_APP_ID"])
     await ctx.send(response)
 
 @bot.event
