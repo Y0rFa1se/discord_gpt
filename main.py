@@ -8,6 +8,7 @@ import asyncio
 from modules.openai import openai_init
 from modules.json import load_json, save_json
 from modules.imgur import imgur_upload
+from modules.wolfram import get_wolfram
 from modules.gpt import (
     count_token,
     cut_message,
@@ -71,6 +72,12 @@ async def json_history(ctx):
 
     file = discord.File(f"chat_history/{ctx.guild}/{ctx.channel.category}/{ctx.channel}_decoded.json", filename="history_decoded.json")
     await ctx.send(file=file)
+
+@bot.command(name="wa")
+async def wolfram_alpha(ctx, *args):
+    query = " ".join(args)
+    response = get_wolfram(query, ENV_DICT["WOLFRAM_APP_ID"])
+    await ctx.send(response)
 
 @bot.command(name="streamchunk")
 async def stream_chunk(ctx, number: int):
