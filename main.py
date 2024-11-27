@@ -104,7 +104,11 @@ async def on_message(message):
         collected = ""
 
         for chunk in responses:
-            collected += chunk.choices[0].message.content
+            print(chunk)
+            print(chunk['choices'][0]['delta'])
+            print(chunk.choices[0].delta)
+            # collected += chunk.choices[0].message.content
+            collected += chunk['choices'][0]['delta']
 
             await msg.edit(content=collected)
 
