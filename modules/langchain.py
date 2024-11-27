@@ -1,4 +1,4 @@
-from langchain.document_loaders import PyPDFLoader
+from langchain_community.document_loaders import PyPDFLoader
 
 def process_pdf(pdf_binary):
     loader = PyPDFLoader(pdf_binary)
