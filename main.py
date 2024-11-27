@@ -92,7 +92,6 @@ async def on_message(message):
                 save_json(f"{message.guild}/{message.channel.category}", message.channel, history)
 
     if message.content:
-        print(message.guild, message.channel, message.content)
         requests = message.content
         history = load_json(f"{message.guild}/{message.channel.category}", message.channel)
         history = render_requests(history, requests)
