@@ -2,8 +2,9 @@ from langchain_community.document_loaders import PyPDFLoader
 
 def process_pdf(pdf_path):
     loader = PyPDFLoader(pdf_path)
-    text = loader.load()
+    document = loader.load()
 
-    print(text.page_content)
+    for page in document:
+        text = page.page_content
 
     return text
