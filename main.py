@@ -119,7 +119,6 @@ async def on_message(message):
                     await message.channel.send("Image uploaded.")
 
                 elif attachment.filename.lower().endswith("pdf"):
-                    print("pdf")
                     url = attachment.url
 
                     async with aiohttp.ClientSession() as session:
