@@ -104,10 +104,10 @@ async def on_message(message):
         collected = ""
 
         for chunk in responses:
-            print(chunk.choices[0].message.content)
-            collected += chunk.choices[0].delta.content
+            if chunk.choices[0].delta.content:
+                collected += chunk.choices[0].delta.content
 
-            await msg.edit(content=collected)
+                await msg.edit(content=collected)
 
         history = render_responses(history, collected)
         save_json(f"{message.guild}/{message.channel.category}", message.channel, history)
