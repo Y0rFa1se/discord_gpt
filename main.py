@@ -61,6 +61,17 @@ async def json_history(ctx):
     file = discord.File(f"chat_history/{ctx.guild}/{ctx.channel.category}/{ctx.channel}.json", filename="history.json")
     await ctx.send(file=file)
 
+    with open(f"chat_history/{ctx.guild}/{ctx.channel.category}/{ctx.channel}.json", "r") as f:
+        unicode_encoded = f.read().encode("utf-8")
+
+        decoded = unicode_encoded.decode("unicode_escape")
+
+        with open(f"chat_history/{ctx.guild}/{ctx.channel.category}/{ctx.channel}_decoded.json", "w", encoding="utf-8") as f:
+            f.write(decoded)
+
+    file = discord.File(f"chat_history/{ctx.guild}/{ctx.channel.category}/{ctx.channel}_decoded.json", filename="history_decoded.json")
+    await ctx.send(file=file)
+
 @bot.command(name="streamchunk")
 async def stream_chunk(ctx, number: int):
     streaming_chunk[ctx.channel] = number
