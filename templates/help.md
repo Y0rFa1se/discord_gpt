@@ -1,4 +1,5 @@
 # prefix: !
+### 지원 확장자: 디스코드에 업로드 가능한 이미지, pdf
 ```
 !tokenhistory: 현재 채널에 저장된 히스토리 토큰 사용량
 !checktoken [text]: [text] 토큰 측정
