@@ -1,0 +1,36 @@
+name: Deploy to Server
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    build-and-deploy:
+        runs-on: ubuntu-latest
+        environment: server_config
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
+
+            - name: Deploy to remote server
+              uses: appleboy/ssh-action@v0.1.5
+              with:
+                  host: ${{ secrets.SERVER_HOST }}
+                  username: ${{ secrets.SERVER_USER }}
+                  password: ${{ secrets.SERVER_PASSWORD }}
+                  script: |
+                      git clone https://github.com/Y0rFa1se/discord_gpt.git
+                      cd discord_gpt
+
+                      echo ${{ secrets.DOTENV }} > .env
+
+                      docker stop discord_gpt || true
+                      docker rm discord_gpt || true
+
+                      docker build -t discord_gpt .
+                      docker run -d --name discord_gpt discord_gpt
+
+                      cd ..
+                      rm -rf discord_gpt
