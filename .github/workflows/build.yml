@@ -24,8 +24,8 @@ jobs:
                       git clone https://github.com/Y0rFa1se/discord_gpt.git
                       cd discord_gpt
 
-                      echo ${{ secrets.DOTENV }} > .env
-                      echo ${{ secrets.DOTENV }} > ../.env
+                      echo "${{ secrets.DOTENV }}" > .env
+                      echo "${{ secrets.DOTENV }}" > ../.env
 
                       docker stop discord_gpt || true
                       docker rm discord_gpt || true
