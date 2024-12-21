@@ -25,9 +25,11 @@ jobs:
                       cd discord_gpt
 
                       echo ${{ secrets.DOTENV }} > .env
+                      echo ${{ secrets.DOTENV }} > ../.env
 
                       docker stop discord_gpt || true
                       docker rm discord_gpt || true
+                      docker rmi discord_gpt || true
 
                       docker build -t discord_gpt .
                       docker run -d --name discord_gpt discord_gpt
